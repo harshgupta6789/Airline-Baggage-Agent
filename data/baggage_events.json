@@ -1,0 +1,18 @@
+[
+  {
+    "bag_tag": "BG001",
+    "events": [
+      { "airport": "DFW", "event": "CHECKED_IN" },
+      { "airport": "DFW", "event": "LOADED" },
+      { "airport": "JFK", "event": "MISSING" }
+    ]
+  },
+  {
+    "bag_tag": "BG002",
+    "events": [
+      { "airport": "MIA", "event": "CHECKED_IN" },
+      { "airport": "MIA", "event": "LOADED" },
+      { "airport": "ORD", "event": "DELIVERED" }
+    ]
+  }
+]

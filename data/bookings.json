@@ -1,0 +1,18 @@
+[
+  {
+    "pnr": "ABC123",
+    "passenger_id": "P001",
+    "flight_number": "SW101",
+    "origin": "DFW",
+    "destination": "JFK",
+    "bag_tag": "BG001"
+  },
+  {
+    "pnr": "XYZ789",
+    "passenger_id": "P002",
+    "flight_number": "SW202",
+    "origin": "MIA",
+    "destination": "ORD",
+    "bag_tag": "BG002"
+  }
+]
