@@ -1,6 +1,8 @@
 from fastapi import FastAPI, HTTPException
 
-from app.services.data_service import get_bookings, get_baggage_events
+from app.services.data_service import get_booking, get_baggage_events
+from app.models.claim import ClaimRequest
+from app.services.claim_validator import validate_claim
 
 app = FastAPI(title="Airline Baggage Claim Validation Agent", version="1.0.0")
 
@@ -10,7 +12,7 @@ def health():
 
 @app.get("/bookings/{pnr}")
 def booking(pnr: str):
-    result = get_bookings(pnr)
+    result = get_booking(pnr)
     if not result:
         raise HTTPException(status_code = 404, detail="Booking not found")
     
@@ -23,3 +25,7 @@ def baggage(bag_tag: str):
         raise HTTPException(status_code = 404, detail="Baggage record not found")
     
     return result
+
+@app.post("/claims")
+def submit_claim(claim: ClaimRequest):
+    return validate_claim(claim)

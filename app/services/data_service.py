@@ -8,7 +8,7 @@ def load_json(filename):
     with open(DATA_DIR / filename, "r") as file:
         return json.load(file)
 
-def get_bookings(pnr):
+def get_booking(pnr):
     bookings = load_json("bookings.json")
 
     for booking in bookings:
