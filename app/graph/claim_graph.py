@@ -1,6 +1,6 @@
 from typing import TypedDict, Optional
 from langgraph.graph import StateGraph, START, END
-from app.services.data_service import get_booking, get_baggage_events
+from app.mcp.client import lookup_booking_info, lookup_baggage_info
 
 class ClaimState(TypedDict):
     pnr: str
@@ -14,8 +14,8 @@ class ClaimState(TypedDict):
     decision: str
     claim_amount: float
 
-def verify_booking(state: ClaimState):
-    booking = get_booking(state["pnr"])
+async def verify_booking(state: ClaimState):
+    booking = await lookup_booking_info(state["pnr"])
 
     if not booking:
         return {"decision": "REJECT", "reason": "Booking not found"}
@@ -25,11 +25,11 @@ def verify_booking(state: ClaimState):
 
     return {"booking": booking}
 
-def check_baggage(state: ClaimState):
+async def check_baggage(state: ClaimState):
     if state.get("decision"):
         return {}
 
-    baggage = get_baggage_events(state["bag_tag"])
+    baggage = await lookup_baggage_info(state["bag_tag"])
     if not baggage:
         return {
             "decision": "MANUAL_REVIEW",

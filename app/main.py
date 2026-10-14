@@ -28,6 +28,6 @@ def baggage(bag_tag: str):
     return result
 
 @app.post("/claims")
-def submit_claim(claim: ClaimRequest):
-    result = claim_graph.invoke(claim.model_dump())
+async def submit_claim(claim: ClaimRequest):
+    result = await claim_graph.ainvoke(claim.model_dump())
     return result
