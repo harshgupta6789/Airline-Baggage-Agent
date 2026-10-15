@@ -46,6 +46,33 @@ async def check_baggage(state: ClaimState):
 
     return {"baggage": baggage}
 
+def validate_claim_evidence(state: ClaimState):
+    events = [event["event"] for event in state["baggage"]["events"]]
+
+    claim_type = state["claim_type"]
+
+    if claim_type == "DELAYED_BAGGAGE":
+        if "MISSING" not in events:
+            return {
+                "decision": "REJECT",
+                "reason": "Baggage tracking does not show evidence of delay."
+            }
+    elif claim_type == "LOST_BAGGAGE":
+        if "MISSING" not in events:
+            return {
+                "decision": "REJECT",
+                "reason": "Baggage tracking does not show evidence that the bag was lost."
+            }
+    elif claim_type == "DAMAGED_BAGGAGE":
+        pass
+    else:
+        return {
+            "decision": "MANUAL_REVIEW",
+            "reason": f"Unsupported claim type: {claim_type}"
+        }
+
+    return {}
+
 def retrieve_policy(state: ClaimState):
     query = (
         f"Claim state: {state["claim_type"]}"
@@ -87,6 +114,24 @@ def make_decision(state: ClaimState):
         "confidence": result.confidence,
     }
 
+def apply_guardrails(state: ClaimState):
+    decision = state.get("decision")
+    approved_amount = state.get("approved_amount")
+    confidence = state.get("confidence")
+
+    if decision == "APPROVED" and approved_amount > 500:
+        return {
+            "decision": "MANUAL_REVIEW",
+            "reason": "Approved amount exceeds automatic approval threshold."
+        }
+    if confidence < 0.75:
+        return {
+            "decision": "MANUAL_REVIEW",
+            "reason": "Model confidence below automatic decision threshold."
+        }
+
+    return {}
+
 def route_after_booking(state: ClaimState):
     if state.get("decision"):
         return "end"
@@ -97,17 +142,26 @@ def route_after_baggage(state: ClaimState):
         return "end"
     return "continue"
 
+def route_after_evidence_validation(state: ClaimState):
+    if state.get("decision"):
+        return "end"
+    return "continue"
+
 builder = StateGraph(ClaimState)
 
 builder.add_node("verify_booking", verify_booking)
 builder.add_node("check_baggage", check_baggage)
+builder.add_node("validate_claim_evidence", validate_claim_evidence)
 builder.add_node("retrieve_policy", retrieve_policy)
 builder.add_node("make_decision", make_decision)
+builder.add_node("apply_guardrails", apply_guardrails)
 
 builder.add_edge(START, "verify_booking")
 builder.add_conditional_edges("verify_booking", route_after_booking, {"continue": "check_baggage", "end": END})
-builder.add_conditional_edges("check_baggage", route_after_baggage, {"continue": "retrieve_policy", "end": END})
+builder.add_conditional_edges("check_baggage", route_after_baggage, {"continue": "validate_claim_evidence", "end": END})
+builder.add_conditional_edges("validate_claim_evidence", route_after_evidence_validation, {"continue": "retrieve_policy", "end": END})
 builder.add_edge("retrieve_policy", "make_decision")
-builder.add_edge("make_decision", END)
+builder.add_edge("make_decision", "apply_guardrails")
+builder.add_edge("apply_guardrails", END)
 
 claim_graph = builder.compile()
