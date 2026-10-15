@@ -2,6 +2,7 @@ from typing import TypedDict, Optional
 from langgraph.graph import StateGraph, START, END
 from app.mcp.client import lookup_booking_info, lookup_baggage_info
 from app.services.policy_service import search_policies
+from app.services.llm_service import evaluate_claim_with_llm
 
 class ClaimState(TypedDict):
     pnr: str
@@ -17,6 +18,9 @@ class ClaimState(TypedDict):
 
     policy_text: str
     policy_source: str
+
+    approved_amount: Optional[float]
+    confidence: Optional[float]
 
 async def verify_booking(state: ClaimState):
     booking = await lookup_booking_info(state["pnr"])
@@ -65,14 +69,23 @@ def make_decision(state: ClaimState):
     if state.get("decision"):
         return {}
 
-    events = [event["event"] for event in state["baggage"]["events"]]
-
-    if state["claim_type"] == "DELAYED_BAGGAGE" and "MISSING" not in events:
-        return {"decision": "REJECT", "reason": "Baggage was not reported missing"}
-
-    total_amount = sum([expense["amount"] for expense in state["expenses"]])
-
-    return {"decision": "APPROVE", "reason": "Claim passed initial validation", "claim_amount": total_amount}
+    result = evaluate_claim_with_llm(
+        claim_type=state["claim_type"],
+        expenses=state["expenses"],
+        baggage=state["baggage"],
+        policy_text=state["policy_text"],
+    )
+    
+    return {
+        "decision": result.decision,
+        "reason": result.reason,
+        "claimed_amount": sum(
+            expense["amount"]
+            for expense in state["expenses"]
+        ),
+        "approved_amount": result.approved_amount,
+        "confidence": result.confidence,
+    }
 
 def route_after_booking(state: ClaimState):
     if state.get("decision"):
