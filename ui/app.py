@@ -42,46 +42,47 @@ for i in range(expenses_count):
     expenses.append({"category": category, "amount": amount})
 
 if st.button("Submit Claim"):
-    payload = {
-        "pnr": pnr,
-        "bag_tag": bag_tag,
-        "claim_type": claim_type,
-        "expenses": expenses,
-    }
+    with st.spinner("Evaluating claim..."):
+        payload = {
+            "pnr": pnr,
+            "bag_tag": bag_tag,
+            "claim_type": claim_type,
+            "expenses": expenses,
+        }
 
-    try:
-        response = requests.post(
-            API_URL,
-            json=payload,
-            timeout=60,
-        )
-
-        response.raise_for_status()
-
-        result = response.json()
-
-        st.subheader("Decision")
-
-        st.write(f"**Decision:** {result.get('decision')}")
-        st.write(f"**Reason:** {result.get('reason')}")
-
-        if result.get("approved_amount") is not None:
-            st.write(
-                f"**Approved Amount:** "
-                f"${result.get('approved_amount'):.2f}"
-            )
-        
-        if result.get("confidence") is not None:
-            st.write(
-                f"**Confidence:** "
-                f"{result.get('confidence'):.2f}"
+        try:
+            response = requests.post(
+                API_URL,
+                json=payload,
+                timeout=60,
             )
 
-        if result.get("policy_source"):
-            st.write(
-                f"**Policy Used:** "
-                f"{result.get('policy_source')}"
-            )
+            response.raise_for_status()
 
-    except requests.RequestException as exc:
-        st.error(f"Request failed: {exc}")
+            result = response.json()
+
+            st.subheader("Decision")
+
+            st.write(f"**Decision:** {result.get('decision')}")
+            st.write(f"**Reason:** {result.get('reason')}")
+
+            if result.get("approved_amount") is not None:
+                st.write(
+                    f"**Approved Amount:** "
+                    f"${result.get('approved_amount'):.2f}"
+                )
+            
+            if result.get("confidence") is not None:
+                st.write(
+                    f"**Confidence:** "
+                    f"{result.get('confidence'):.2f}"
+                )
+
+            if result.get("policy_source"):
+                st.write(
+                    f"**Policy Used:** "
+                    f"{result.get('policy_source')}"
+                )
+
+        except requests.RequestException as exc:
+            st.error(f"Request failed: {exc}")
