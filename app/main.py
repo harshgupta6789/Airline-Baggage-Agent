@@ -5,7 +5,6 @@ from fastapi import FastAPI, HTTPException
 
 from app.services.data_service import get_booking, get_baggage_events
 from app.models.claim import ClaimRequest
-from app.services.claim_validator import validate_claim
 from app.graph.claim_graph import claim_graph
 from app.services.observability import log_claim_result
 
