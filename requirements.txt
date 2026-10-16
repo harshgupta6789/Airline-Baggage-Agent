@@ -5,3 +5,6 @@ mcp
 chromadb
 openai
 python-dotenv
+langsmith
+pytest
+pytest-asyncio

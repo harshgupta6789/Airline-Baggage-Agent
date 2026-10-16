@@ -5,7 +5,6 @@ from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
 async def lookup_booking_info(pnr: str):
-    print("Looking up booking info for PNR:", pnr)
     server_parameters = StdioServerParameters(
         command=sys.executable,
         args = ["-m", "app.mcp.server"]
