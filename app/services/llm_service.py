@@ -8,8 +8,6 @@ from app.models.enums import ClaimDecision
 
 load_dotenv()
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
 class ClaimDecision(BaseModel):
     decision: Literal[ClaimDecision.APPROVE, ClaimDecision.REJECT, ClaimDecision.MANUAL_REVIEW]
     approved_amount: float
@@ -25,6 +23,8 @@ def evaluate_claim_with_llm(
         baggage: dict,
         policy_text: str
 ):
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    
     prompt = f"""
 You are validating an airline baggage claim.
 
