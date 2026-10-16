@@ -16,6 +16,9 @@ class ClaimDecision(BaseModel):
     reason: str
     confidence: float
 
+    input_tokens: int = 0
+    output_tokens: int = 0
+
 def evaluate_claim_with_llm(
         claim_type: str,
         expenses: list,
@@ -53,4 +56,9 @@ Rules:
         text_format=ClaimDecision,
     )
 
-    return response.output_parsed
+    parsed = response.output_parsed
+
+    parsed.input_tokens = response.usage.input_tokens
+    parsed.output_tokens = response.usage.output_tokens
+
+    return parsed

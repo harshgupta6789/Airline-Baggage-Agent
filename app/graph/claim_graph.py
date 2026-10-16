@@ -23,6 +23,9 @@ class ClaimState(TypedDict):
     approved_amount: Optional[float]
     confidence: Optional[float]
 
+    input_tokens: Optional[int]
+    output_tokens: Optional[int]
+
 async def verify_booking(state: ClaimState):
     booking = await lookup_booking_info(state["pnr"])
 
@@ -127,6 +130,8 @@ def make_decision(state: ClaimState):
         ),
         "approved_amount": result.approved_amount,
         "confidence": result.confidence,
+        "input_tokens": result.input_tokens,
+        "output_tokens": result.output_tokens,
     }
 
 def apply_guardrails(state: ClaimState):

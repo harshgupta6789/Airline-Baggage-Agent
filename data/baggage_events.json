@@ -2,34 +2,90 @@
   {
     "bag_tag": "BG001",
     "events": [
-      { "airport": "DFW", "event": "CHECKED_IN" },
-      { "airport": "DFW", "event": "LOADED" },
-      { "airport": "JFK", "event": "MISSING" }
+      {
+        "airport": "DFW",
+        "event": "CHECKED_IN"
+      },
+      {
+        "airport": "DFW",
+        "event": "LOADED"
+      },
+      {
+        "airport": "JFK",
+        "event": "MISSING"
+      }
     ]
   },
   {
     "bag_tag": "BG002",
     "events": [
-      { "airport": "MIA", "event": "CHECKED_IN" },
-      { "airport": "MIA", "event": "LOADED" },
-      { "airport": "ORD", "event": "DELIVERED" }
+      {
+        "airport": "MIA",
+        "event": "CHECKED_IN"
+      },
+      {
+        "airport": "MIA",
+        "event": "LOADED"
+      },
+      {
+        "airport": "ORD",
+        "event": "DELIVERED"
+      }
     ]
   },
   {
     "bag_tag": "BG003",
     "events": [
-      { "airport": "DFW", "event": "CHECKED_IN" },
-      { "airport": "DFW", "event": "LOADED" },
-      { "airport": "LAX", "event": "LOST" },
-      { "airport": "LAX", "event": "CONFIRMED_LOST" }
+      {
+        "airport": "DFW",
+        "event": "CHECKED_IN"
+      },
+      {
+        "airport": "DFW",
+        "event": "LOADED"
+      },
+      {
+        "airport": "LAX",
+        "event": "LOST"
+      },
+      {
+        "airport": "LAX",
+        "event": "CONFIRMED_LOST"
+      }
     ]
   },
   {
     "bag_tag": "BG004",
     "events": [
-      { "airport": "ATL", "event": "CHECKED_IN" },
-      { "airport": "ATL", "event": "LOADED" },
-      { "airport": "BOS", "event": "DAMAGED" }
+      {
+        "airport": "ATL",
+        "event": "CHECKED_IN"
+      },
+      {
+        "airport": "ATL",
+        "event": "LOADED"
+      },
+      {
+        "airport": "BOS",
+        "event": "DAMAGED"
+      }
+    ]
+  },
+  {
+    "bag_tag": "BG005",
+    "events": [
+      {
+        "airport": "SEA",
+        "event": "CHECKED_IN"
+      },
+      {
+        "airport": "SEA",
+        "event": "LOADED"
+      },
+      {
+        "airport": "SFO",
+        "event": "LOST"
+      }
     ]
   }
 ]

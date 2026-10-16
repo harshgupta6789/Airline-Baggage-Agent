@@ -1,0 +1,273 @@
+[
+  {
+    "id": "delayed_valid_001",
+    "input": {
+      "pnr": "ABC123",
+      "bag_tag": "BG001",
+      "claim_type": "DELAYED_BAGGAGE",
+      "expenses": [
+        {
+          "category": "clothing",
+          "amount": 150
+        },
+        {
+          "category": "toiletries",
+          "amount": 40
+        }
+      ]
+    },
+    "expected": {
+      "decision": "APPROVE",
+      "policy_source": "delayed_baggage.md"
+    }
+  },
+  {
+    "id": "delayed_delivered_002",
+    "input": {
+      "pnr": "XYZ789",
+      "bag_tag": "BG002",
+      "claim_type": "DELAYED_BAGGAGE",
+      "expenses": [
+        {
+          "category": "clothing",
+          "amount": 100
+        }
+      ]
+    },
+    "expected": {
+      "decision": "REJECT"
+    }
+  },
+  {
+    "id": "delayed_high_amount_003",
+    "input": {
+      "pnr": "ABC123",
+      "bag_tag": "BG001",
+      "claim_type": "DELAYED_BAGGAGE",
+      "expenses": [
+        {
+          "category": "clothing",
+          "amount": 450
+        },
+        {
+          "category": "toiletries",
+          "amount": 120
+        }
+      ]
+    },
+    "expected": {
+      "decision": "MANUAL_REVIEW",
+      "policy_source": "delayed_baggage.md"
+    }
+  },
+  {
+    "id": "delayed_excluded_expense_004",
+    "input": {
+      "pnr": "ABC123",
+      "bag_tag": "BG001",
+      "claim_type": "DELAYED_BAGGAGE",
+      "expenses": [
+        {
+          "category": "electronics",
+          "amount": 300
+        }
+      ]
+    },
+    "expected": {
+      "decision": "REJECT",
+      "policy_source": "delayed_baggage.md"
+    }
+  },
+  {
+    "id": "delayed_valid_small_005",
+    "input": {
+      "pnr": "ABC123",
+      "bag_tag": "BG001",
+      "claim_type": "DELAYED_BAGGAGE",
+      "expenses": [
+        {
+          "category": "toiletries",
+          "amount": 55
+        }
+      ]
+    },
+    "expected": {
+      "decision": "APPROVE",
+      "policy_source": "delayed_baggage.md"
+    }
+  },
+  {
+    "id": "lost_confirmed_006",
+    "input": {
+      "pnr": "LMN456",
+      "bag_tag": "BG003",
+      "claim_type": "LOST_BAGGAGE",
+      "expenses": [
+        {
+          "category": "clothing",
+          "amount": 300
+        }
+      ]
+    },
+    "expected": {
+      "decision": "APPROVE",
+      "policy_source": "lost_baggage.md"
+    }
+  },
+  {
+    "id": "lost_not_confirmed_007",
+    "input": {
+      "pnr": "QRS654",
+      "bag_tag": "BG005",
+      "claim_type": "LOST_BAGGAGE",
+      "expenses": [
+        {
+          "category": "clothing",
+          "amount": 250
+        }
+      ]
+    },
+    "expected": {
+      "decision": "MANUAL_REVIEW"
+    }
+  },
+  {
+    "id": "lost_no_evidence_008",
+    "input": {
+      "pnr": "XYZ789",
+      "bag_tag": "BG002",
+      "claim_type": "LOST_BAGGAGE",
+      "expenses": [
+        {
+          "category": "clothing",
+          "amount": 200
+        }
+      ]
+    },
+    "expected": {
+      "decision": "REJECT"
+    }
+  },
+  {
+    "id": "lost_high_amount_009",
+    "input": {
+      "pnr": "LMN456",
+      "bag_tag": "BG003",
+      "claim_type": "LOST_BAGGAGE",
+      "expenses": [
+        {
+          "category": "clothing",
+          "amount": 1200
+        }
+      ]
+    },
+    "expected": {
+      "decision": "MANUAL_REVIEW",
+      "policy_source": "lost_baggage.md"
+    }
+  },
+  {
+    "id": "damaged_valid_010",
+    "input": {
+      "pnr": "DEF321",
+      "bag_tag": "BG004",
+      "claim_type": "DAMAGED_BAGGAGE",
+      "expenses": [
+        {
+          "category": "baggage_repair",
+          "amount": 180
+        }
+      ]
+    },
+    "expected": {
+      "decision": "APPROVE",
+      "policy_source": "damaged_baggage.md"
+    }
+  },
+  {
+    "id": "damaged_no_evidence_011",
+    "input": {
+      "pnr": "XYZ789",
+      "bag_tag": "BG002",
+      "claim_type": "DAMAGED_BAGGAGE",
+      "expenses": [
+        {
+          "category": "baggage_repair",
+          "amount": 150
+        }
+      ]
+    },
+    "expected": {
+      "decision": "REJECT"
+    }
+  },
+  {
+    "id": "damaged_high_amount_012",
+    "input": {
+      "pnr": "DEF321",
+      "bag_tag": "BG004",
+      "claim_type": "DAMAGED_BAGGAGE",
+      "expenses": [
+        {
+          "category": "baggage_repair",
+          "amount": 650
+        }
+      ]
+    },
+    "expected": {
+      "decision": "MANUAL_REVIEW",
+      "policy_source": "damaged_baggage.md"
+    }
+  },
+  {
+    "id": "invalid_pnr_013",
+    "input": {
+      "pnr": "BAD999",
+      "bag_tag": "BG001",
+      "claim_type": "DELAYED_BAGGAGE",
+      "expenses": [
+        {
+          "category": "clothing",
+          "amount": 100
+        }
+      ]
+    },
+    "expected": {
+      "decision": "REJECT"
+    }
+  },
+  {
+    "id": "wrong_bag_for_booking_014",
+    "input": {
+      "pnr": "ABC123",
+      "bag_tag": "BG002",
+      "claim_type": "DELAYED_BAGGAGE",
+      "expenses": [
+        {
+          "category": "clothing",
+          "amount": 100
+        }
+      ]
+    },
+    "expected": {
+      "decision": "REJECT"
+    }
+  },
+  {
+    "id": "missing_baggage_data_015",
+    "input": {
+      "pnr": "UVW987",
+      "bag_tag": "BG006",
+      "claim_type": "DELAYED_BAGGAGE",
+      "expenses": [
+        {
+          "category": "clothing",
+          "amount": 100
+        }
+      ]
+    },
+    "expected": {
+      "decision": "MANUAL_REVIEW"
+    }
+  }
+]

@@ -30,5 +30,21 @@
     "origin": "ATL",
     "destination": "BOS",
     "bag_tag": "BG004"
+  },
+  {
+    "pnr": "QRS654",
+    "passenger_id": "P005",
+    "flight_number": "SW505",
+    "origin": "SEA",
+    "destination": "SFO",
+    "bag_tag": "BG005"
+  },
+  {
+    "pnr": "UVW987",
+    "passenger_id": "P006",
+    "flight_number": "SW606",
+    "origin": "DEN",
+    "destination": "PHX",
+    "bag_tag": "BG006"
   }
 ]
