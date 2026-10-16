@@ -4,13 +4,14 @@ from typing import Literal
 from pydantic import BaseModel
 from dotenv import load_dotenv
 from openai import OpenAI
+from app.models.enums import ClaimDecision
 
 load_dotenv()
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 class ClaimDecision(BaseModel):
-    decision: Literal["APPROVE", "REJECT", "MANUAL_REVIEW"]
+    decision: Literal[ClaimDecision.APPROVE, ClaimDecision.REJECT, ClaimDecision.MANUAL_REVIEW]
     approved_amount: float
     reason: str
     confidence: float

@@ -14,5 +14,21 @@
     "origin": "MIA",
     "destination": "ORD",
     "bag_tag": "BG002"
+  },
+  {
+    "pnr": "LMN456",
+    "passenger_id": "P003",
+    "flight_number": "SW303",
+    "origin": "DFW",
+    "destination": "LAX",
+    "bag_tag": "BG003"
+  },
+  {
+    "pnr": "DEF321",
+    "passenger_id": "P004",
+    "flight_number": "SW404",
+    "origin": "ATL",
+    "destination": "BOS",
+    "bag_tag": "BG004"
   }
 ]

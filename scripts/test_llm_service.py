@@ -1,7 +1,8 @@
 from app.services.llm_service import evaluate_claim_with_llm
+from app.models.enums import ClaimDecision, ClaimType
 
 result = evaluate_claim_with_llm(
-    claim_type="DELAYED_BAGGAGE",
+    claim_type=ClaimType.DELAYED_BAGGAGE,
     expenses=[
         {"category": "clothing", "amount": 150},
         {"category": "toiletries", "amount": 40},

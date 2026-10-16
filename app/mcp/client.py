@@ -16,7 +16,9 @@ async def lookup_booking_info(pnr: str):
             await session.initialize()
 
             result = await session.call_tool("lookup_booking", {"pnr": pnr})
-            return json.loads(result.content[0].text)
+            if result.content:
+                return json.loads(result.content[0].text)
+            return {}
 
 async def lookup_baggage_info(bag_tag: str):
     server_parameters = StdioServerParameters(
@@ -29,4 +31,6 @@ async def lookup_baggage_info(bag_tag: str):
             await session.initialize()
 
             result = await session.call_tool("lookup_baggage", {"bag_tag": bag_tag})
-            return json.loads(result.content[0].text)
+            if result.content:
+                return json.loads(result.content[0].text)
+            return {}

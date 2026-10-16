@@ -14,5 +14,22 @@
       { "airport": "MIA", "event": "LOADED" },
       { "airport": "ORD", "event": "DELIVERED" }
     ]
+  },
+  {
+    "bag_tag": "BG003",
+    "events": [
+      { "airport": "DFW", "event": "CHECKED_IN" },
+      { "airport": "DFW", "event": "LOADED" },
+      { "airport": "LAX", "event": "LOST" },
+      { "airport": "LAX", "event": "CONFIRMED_LOST" }
+    ]
+  },
+  {
+    "bag_tag": "BG004",
+    "events": [
+      { "airport": "ATL", "event": "CHECKED_IN" },
+      { "airport": "ATL", "event": "LOADED" },
+      { "airport": "BOS", "event": "DAMAGED" }
+    ]
   }
 ]

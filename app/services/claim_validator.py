@@ -1,16 +1,17 @@
 from app.services.data_service import get_booking, get_baggage_events
+from app.models.enums import ClaimType, ClaimDecision
 
 def validate_claim(claim):
     booking = get_booking(claim.pnr)
     if not booking:
         return {
-            "decision": "REJECT",
+            "decision": ClaimDecision.REJECT,
             "reason": "Booking not found"
         }
 
     if booking["bag_tag"] != claim.bag_tag:
         return {
-            "decision": "REJECT",
+            "decision": ClaimDecision.REJECT,
             "reason": "Bag tag does not match booking"
         }
 
@@ -18,23 +19,23 @@ def validate_claim(claim):
 
     if not baggage:
         return {
-            "decision": "MANUAL_REVIEW",
+            "decision": ClaimDecision.MANUAL_REVIEW,
             "reason": "Baggage record not found"
         }
 
     events = [event["event"] for event in baggage["events"]]
 
-    if claim.claim_type == "DELAYED_BAGGAGE":
+    if claim.claim_type == ClaimType.DELAYED_BAGGAGE:
         if "MISSING" not in events:
             return {
-                "decision": "REJECT",
+                "decision": ClaimDecision.REJECT,
                 "reason": "Baggage tracking does not indicate a delay"
             }
 
     total_amount = sum(expense.amount for expense in claim.expenses)
 
     return {
-        "decision": "APPROVE",
+        "decision": ClaimDecision.APPROVE,
         "total_amount": total_amount,
         "reason": "Claim passed initial validation"
     }
