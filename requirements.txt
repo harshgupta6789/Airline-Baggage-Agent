@@ -8,3 +8,5 @@ python-dotenv
 langsmith
 pytest
 pytest-asyncio
+streamlit
+requests
